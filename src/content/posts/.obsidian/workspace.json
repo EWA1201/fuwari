@@ -11,10 +11,12 @@
             "id": "a13944b25dbcff6c",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "新分頁"
+              "type": "image",
+              "state": {
+                "file": "start/43603c17191eadda1564e4051e4000f13546597308763020.png"
+              },
+              "icon": "lucide-image",
+              "title": "43603c17191eadda1564e4051e4000f13546597308763020"
             }
           }
         ]
@@ -176,12 +178,16 @@
       "bases:建立新的 base": false
     }
   },
-  "active": "a13944b25dbcff6c",
+  "active": "2452e336606650f0",
   "lastOpenFiles": [
+    "start/開始.md",
+    "start/43603c17191eadda1564e4051e4000f13546597308763020.png",
+    "開始.md",
+    "start",
+    "新增資料夾",
     "Hello World/43603c17191eadda1564e4051e4000f13546597308763020.png",
     "Hello World.md",
     "Hello World/Hello World.md",
-    "Hello World",
-    "新增資料夾"
+    "Hello World"
   ]
 }
