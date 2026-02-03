@@ -8,16 +8,18 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Fuwari",
-	subtitle: "Demo Site",
-	lang: "en", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
+	title: "EWA's blog",
+	subtitle: "首頁",
+	description:
+		"",
+	lang: "zh_TW", // Language code, e.g. 'en', 'zh-CN', 'ja', etc.
 	themeColor: {
-		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
-		fixed: false, // Hide the theme color picker for visitors
+		hue: 275, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
+		fixed: true, // Hide the theme color picker for visitors
 	},
 	banner: {
-		enable: false,
-		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+		enable: true,
+		src: "assets/images/Gk2yy_2aoAQuSBR.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
 			enable: false, // Display the credit text of the banner image
@@ -31,49 +33,76 @@ export const siteConfig: SiteConfig = {
 	},
 	favicon: [
 		// Leave this array empty to use the default favicon
-		// {
-		//   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
-		//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
-		//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
-		// }
+		{
+			src: "/favicon/ROC_National_Defense_University_Seal.svg.png", // Path of the favicon, relative to the /public directory
+			theme: "dark", // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
+			sizes: "128x128", // (Optional) Size of the favicon, set only if you have favicons of different sizes
+		},
 	],
 };
 
 export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
-		LinkPreset.Archive,
 		LinkPreset.About,
 		{
-			name: "GitHub",
-			url: "https://github.com/saicaca/fuwari", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
+			name: "朋友",
+			url: "/friends/",
+			external: false,
 		},
+		LinkPreset.Archive,
+		// {
+		// 	name: "其他",
+		// 	url: "#",
+		// 	external: false,
+		// 	children: [
+		// 		{
+		// 			name: "常用脚本&资源",
+		// 			url: "/scripts/",
+		// 			external: false,
+		// 		},
+		// 		{
+		// 			name: "用药感受",
+		// 			url: "/sleep/",
+		// 			external: false,
+		// 		},
+		// 		{
+		// 			name: "状态",
+		// 			url: "https://stats.uptimerobot.com/YVPkaXtQOH",
+		// 			external: true,
+		// 		},
+		// 	],
+		// },
 	],
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "Lorem Ipsum",
-	bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+	avatar: "assets/images/139125552_p0_master1200.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	name: "EWA",
+	bio: "Nothing",
 	links: [
-		{
-			name: "Twitter",
-			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
-			// You will need to install the corresponding icon set if it's not already included
-			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://twitter.com",
-		},
+		// {
+		// 	name: "Twitter",
+		// 	icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
+		// 	// You will need to install the corresponding icon set if it's not already included
+		// 	// `pnpm add @iconify-json/<icon-set-name>`
+		// 	url: "https://twitter.com",
+		// },
 		{
 			name: "Steam",
 			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
+			url: "https://steamcommunity.com/id/kpl22E/",
 		},
 		{
-			name: "GitHub",
-			icon: "fa6-brands:github",
-			url: "https://github.com/saicaca/fuwari",
+			name: "bilibili",
+			icon: "fa6-brands:bilibili",
+			url: "https://space.bilibili.com/690665228",
 		},
+		// {
+		// 	name: "Mail",
+		// 	icon: "fa6-solid:envelope",
+		// 	url: "mailto:i@hiwer.cn",
+		// },
 	],
 };
 

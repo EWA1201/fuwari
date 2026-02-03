@@ -17,6 +17,13 @@ for (const heading of headings) {
 
 const className = Astro.props.class;
 const isPostsRoute = Astro.url.pathname.startsWith(url("/posts/"));
+const isScriptsRoute = Astro.url.pathname.startsWith(url("/scripts/"));
+// 检查是否为自定义页面路由（除了首页、归档页等特殊页面）
+const isCustomPageRoute = !Astro.url.pathname.match(
+	/^\/(archive|rss\.xml|robots\.txt|page\/\d+)?$/,
+);
+const shouldShowTOC =
+	isPostsRoute || isScriptsRoute || (isCustomPageRoute && headings.length > 0);
 
 const removeTailingHash = (text: string) => {
 	let lastIndexOfHash = text.lastIndexOf("#");
@@ -31,7 +38,7 @@ let heading1Count = 1;
 
 const maxLevel = siteConfig.toc.depth;
 ---
-{isPostsRoute &&
+{shouldShowTOC &&
 <table-of-contents class:list={[className, "group"]}>
     {headings.filter((heading) => heading.depth < minDepth + maxLevel).map((heading) =>
             <a href={`#${heading.slug}`} class="px-2 flex gap-2 relative transition w-full min-h-9 rounded-xl
@@ -50,12 +57,12 @@ const maxLevel = siteConfig.toc.depth;
                     {heading.depth == minDepth + 2 && <div class="transition w-1.5 h-1.5 rounded-sm bg-black/5 dark:bg-white/10"></div>}
                 </div>
                 <div class:list={["transition text-sm", {
-                    "text-50": heading.depth == minDepth || heading.depth == minDepth + 1,
-                    "text-30": heading.depth == minDepth + 2,
+                    "text-black/50 dark:text-white/50": heading.depth == minDepth || heading.depth == minDepth + 1,
+                    "text-black/30 dark:text-white/30": heading.depth == minDepth + 2,
                 }]}>{removeTailingHash(heading.text)}</div>
             </a>
     )}
-    <div id="active-indicator" style="opacity: 0" class:list={[{'hidden': headings.length == 0}, "-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all " +
+    <div id="active-indicator" class:list={[{'hidden': headings.length == 0}, "-z-10 absolute bg-[var(--toc-btn-hover)] left-0 right-0 rounded-xl transition-all " +
         "group-hover:bg-transparent border-2 border-[var(--toc-btn-hover)] group-hover:border-[var(--toc-btn-active)] border-dashed"]}></div>
 </table-of-contents>}
 
@@ -97,7 +104,7 @@ class TableOfContents extends HTMLElement {
 
     toggleActiveHeading = () => {
         let i = this.active.length - 1;
-        let min = this.active.length - 1, max = -1;
+        let min = this.active.length - 1, max = 0;
         while (i >= 0 && !this.active[i]) {
             this.tocEntries[i].classList.remove(this.visibleClass);
             i--;
@@ -112,15 +119,11 @@ class TableOfContents extends HTMLElement {
             this.tocEntries[i].classList.remove(this.visibleClass);
             i--;
         }
-        if (min > max) {
-            this.activeIndicator?.setAttribute("style", `opacity: 0`);
-        } else {
-            let parentOffset = this.tocEl?.getBoundingClientRect().top || 0;
-            let scrollOffset = this.tocEl?.scrollTop || 0;
-            let top = this.tocEntries[min].getBoundingClientRect().top - parentOffset + scrollOffset;
-            let bottom = this.tocEntries[max].getBoundingClientRect().bottom - parentOffset + scrollOffset;
-            this.activeIndicator?.setAttribute("style", `top: ${top}px; height: ${bottom - top}px`);
-        }
+        let parentOffset = this.tocEl?.getBoundingClientRect().top || 0;
+        let scrollOffset = this.tocEl?.scrollTop || 0;
+        let top = this.tocEntries[min].getBoundingClientRect().top - parentOffset + scrollOffset;
+        let bottom = this.tocEntries[max].getBoundingClientRect().bottom - parentOffset + scrollOffset;
+        this.activeIndicator?.setAttribute("style", `top: ${top}px; height: ${bottom - top}px`);
     };
 
     scrollToActiveHeading = () => {

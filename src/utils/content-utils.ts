@@ -10,6 +10,11 @@ async function getRawSortedPosts() {
 	});
 
 	const sorted = allBlogPosts.sort((a, b) => {
+		// 首先按置顶状态排序
+		if (a.data.pinned && !b.data.pinned) return -1;
+		if (!a.data.pinned && b.data.pinned) return 1;
+
+		// 然后按发布日期排序
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;
@@ -35,8 +40,22 @@ export type PostForList = {
 	slug: string;
 	data: CollectionEntry<"posts">["data"];
 };
+async function getRawSortedPostsForArchive() {
+	const allBlogPosts = await getCollection("posts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	const sorted = allBlogPosts.sort((a, b) => {
+		// 仅按发布日期排序，不考虑置顶状态
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
+	return sorted;
+}
+
 export async function getSortedPostsList(): Promise<PostForList[]> {
-	const sortedFullPosts = await getRawSortedPosts();
+	const sortedFullPosts = await getRawSortedPostsForArchive();
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
@@ -57,8 +76,8 @@ export async function getTagList(): Promise<Tag[]> {
 	});
 
 	const countMap: { [key: string]: number } = {};
-	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
-		post.data.tags.forEach((tag: string) => {
+	allBlogPosts.map((post: { data: { tags: string[] } }) => {
+		post.data.tags.map((tag: string) => {
 			if (!countMap[tag]) countMap[tag] = 0;
 			countMap[tag]++;
 		});
@@ -83,7 +102,7 @@ export async function getCategoryList(): Promise<Category[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 	const count: { [key: string]: number } = {};
-	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
+	allBlogPosts.map((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
 			const ucKey = i18n(I18nKey.uncategorized);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;

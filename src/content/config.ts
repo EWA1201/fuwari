@@ -6,6 +6,7 @@ const postsCollection = defineCollection({
 		published: z.date(),
 		updated: z.date().optional(),
 		draft: z.boolean().optional().default(false),
+		pinned: z.boolean().optional().default(false), // 新增置顶字段
 		description: z.string().optional().default(""),
 		image: z.string().optional().default(""),
 		tags: z.array(z.string()).optional().default([]),
@@ -20,7 +21,16 @@ const postsCollection = defineCollection({
 	}),
 });
 const specCollection = defineCollection({
-	schema: z.object({}),
+	schema: z.object({
+		title: z.string().optional(),
+		description: z.string().optional(),
+		icon: z.string().optional().default("material-symbols:article"),
+		showComments: z.boolean().optional().default(true),
+		pageLayout: z
+			.enum(["default", "wide", "narrow"])
+			.optional()
+			.default("default"),
+	}),
 });
 export const collections = {
 	posts: postsCollection,

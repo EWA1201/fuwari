@@ -3,6 +3,7 @@ import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants";
 export type SiteConfig = {
 	title: string;
 	subtitle: string;
+	description?: string;
 
 	lang:
 		| "en"
@@ -54,6 +55,7 @@ export type NavBarLink = {
 	name: string;
 	url: string;
 	external?: boolean;
+	children?: NavBarLink[]; // 支持二级菜单
 };
 
 export type NavBarConfig = {
